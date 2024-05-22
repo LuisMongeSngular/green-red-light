@@ -1,0 +1,12 @@
+{
+    "name": "Green Red Light Awasome game",
+    "scope": "/src",
+    "short_name": "game",
+    "description": "This is a game about the green and red light popular game",
+    "start_url": "/src/index.html",
+    "display": "standalone",
+    "background_color": "white",
+    "theme_color": "blue"
+    
+  }
+  

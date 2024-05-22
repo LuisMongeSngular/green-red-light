@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <base href="/" />
+    <meta name="Description" content="Put your description here." />
+    <link rel="manifest" href="/public/manifest.json">
+    <title>green-red-light-game</title>
+  </head>
+  <body>
+    <router-element />
+</body>
+  <script>
+    console.log('Entra aqui');
+    if (location.protocol === 'https:') {
+        navigator.serviceWorker.getRegistration('./').then(function(registration) {
+            if (!registration) {
+                navigator.serviceWorker.register('/sw.js', {
+                    scope: './'
+                });
+            }
+        });
+    }
+  </script>
+</html>

@@ -10,13 +10,13 @@
     <meta name="Description" content="Put your description here." />
     <link rel="manifest" href="/public/manifest.json">
     <link rel="stylesheet" href="/common.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <title>green-red-light-game</title>
   </head>
   <body>
     <router-element />
 </body>
   <script>
-    console.log('Entra aqui');
     if (location.protocol === 'https:') {
         navigator.serviceWorker.getRegistration('./').then(function(registration) {
             if (!registration) {

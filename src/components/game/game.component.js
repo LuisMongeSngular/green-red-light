@@ -74,14 +74,31 @@ class GameComponent extends LitElement {
     this.score = 0;
     this.highestScore = getPlayerInfo(this.name)?.score;
     this.walk = true;
-    this.intervalPeriod = this.getIntervalPeriod();
-    this.iconRef;
     this.lastStep = undefined;
+
+    this.delay = this.getIntervalPeriod();
+    this.intervalId;
   }
   connectedCallback() {
     super.connectedCallback();
-    this.interval = setInterval(this.intervalFunc, 3000);
     this.highestScore = getPlayerInfo(this.name)?.score ?? 0;
+    this.intervalId = setInterval(() => {
+      this.executeInterval();
+    }, this.delay);
+  }
+
+  updateDelay(newDelay) {
+    console.log('Update Delay');
+    this.delay = newDelay; // update the delay value
+    clearInterval(this.intervalId); // cancel the current interval
+    this.intervalId = setInterval(() => {
+      this.executeInterval();
+    }, this.delay); // create a new interval with the updated delay
+  }
+
+  executeInterval() {
+    this.intervalFunc();
+    this.updateDelay(this.getIntervalPeriod());
   }
 
   disconnectedCallback() {
@@ -97,7 +114,12 @@ class GameComponent extends LitElement {
   };
 
   getIntervalPeriod() {
-    Math.max(10000 - this.score * 100, 2000) + Math.random(-1500, 1500);
+    if (!this.walk) {
+      return 3000;
+    }
+    const ms =
+      Math.max(10000 - this.score * 100, 2000) + Math.random(-1500, 1500);
+    return ms;
   }
 
   handleStepClick(side) {

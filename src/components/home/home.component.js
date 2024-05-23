@@ -47,14 +47,24 @@ class HomeComponent extends LitElement {
         background-color: #33ff00;
       }
     }
+    .error {
+      color: red;
+      display: none;
+    }
   `;
 
   #onClick() {
     const input = this.shadowRoot.getElementById('name');
+    const error = this.shadowRoot.querySelector('.error');
     if (isValidName(input.value)) {
       savePlayerInfo(input.value);
       setCurrentPlayer(input.value);
+      error.style.display = 'none';
       navigate(this, '/game');
+    } else {
+      console.log('error ', error);
+      console.log('error ', error.style);
+      error.style.display = 'block';
     }
   }
 
@@ -67,6 +77,7 @@ class HomeComponent extends LitElement {
       <div class="input-container">
         <label class="main__label" for="name">Name:</label>
         <input type="text" id="name" name="name" required />
+        <span class="error">Incorrect name</span>
         <button id="btn" @click=${this.#onClick}>JOIN</button>
       </div>
     `;

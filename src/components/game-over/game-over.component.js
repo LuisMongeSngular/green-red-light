@@ -1,5 +1,6 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html } from 'lit';
 import { navigate } from '../../services/navigation.service.js';
+import { gameOverStyle } from './game-over.style.js';
 
 class GameOverComponent extends LitElement {
   static properties = {
@@ -7,31 +8,17 @@ class GameOverComponent extends LitElement {
     score: { type: Number },
   };
 
-  static styles = css`
-    .container {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 5rem;
-      .icon span {
-        font-size: 10rem;
-      }
-      span {
-        font-size: 2rem;
-      }
-      button {
-        margin-top: 2rem;
-        width: 8rem;
-        height: 3rem;
-        font-size: 1.3rem;
-      }
-    }
-  `;
+  static get styles() {
+    return [gameOverStyle];
+  }
 
   constructor() {
     super();
   }
+
+  /**
+   * Navigates to the home component
+   */
   handleOnClick() {
     navigate(this, '/home');
   }

@@ -1,59 +1,21 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html } from 'lit';
 import { isValidName } from '../../services/player.service.js';
 import { navigate } from '../../services/navigation.service.js';
 import {
   setCurrentPlayer,
   savePlayerInfo,
 } from '../../services/player.service.js';
+import { homeStyle } from './home.style.js';
 class HomeComponent extends LitElement {
-  static styles = css`
-    .title {
-      font-size: 32px;
-    }
-    .container {
-      display: flex;
-      justify-content: center;
-      flex-direction: row;
-      margin-top: 8rem;
-    }
-    .input-container {
-      position: relative;
-      padding: 1rem 2rem 1rem 2rem;
-      label {
-        position: absolute;
-        top: 10px;
-        left: 56px;
-        z-index: 1;
-        width: 60px;
-        background-color: black;
-        text-align: center;
-      }
+  static get styles() {
+    return [homeStyle];
+  }
 
-      input {
-        position: relative;
-        z-index: 0;
-        background-color: black;
-        border-color: #33ff00;
-        width: 100%;
-        height: 50px;
-        color: white;
-        font-size: 25px;
-      }
-      button {
-        position: relative;
-        width: 100%;
-        height: 40px;
-        margin-top: 2rem;
-        background-color: #33ff00;
-      }
-    }
-    .error {
-      color: red;
-      display: none;
-    }
-  `;
-
-  #onClick() {
+  /**
+   * Checks if the name introduced is valid
+   * and navigates to the game component
+   */
+  onClick() {
     const input = this.shadowRoot.getElementById('name');
     const error = this.shadowRoot.querySelector('.error');
     if (isValidName(input.value)) {
@@ -78,7 +40,7 @@ class HomeComponent extends LitElement {
         <label class="main__label" for="name">Name:</label>
         <input type="text" id="name" name="name" required />
         <span class="error">Incorrect name</span>
-        <button id="btn" @click=${this.#onClick}>JOIN</button>
+        <button id="btn" @click=${this.onClick}>JOIN</button>
       </div>
     `;
   }

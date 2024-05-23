@@ -1,9 +1,10 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html } from 'lit';
 import { navigate } from '../../services/navigation.service.js';
 import {
   savePlayerInfo,
   getPlayerInfo,
 } from '../../services/player.service.js';
+import { gameStyles } from './game.style.js';
 
 class GameComponent extends LitElement {
   static properties = {
@@ -11,62 +12,9 @@ class GameComponent extends LitElement {
     score: { type: Number },
   };
 
-  static styles = css`
-    .nav-bar {
-      background-color: #161518;
-      width: 100%;
-      height: 5rem;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      span {
-        font-size: 25px;
-      }
-      button {
-        height: 50px;
-      }
-    }
-
-    .score-container {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
-      margin-top: 5rem;
-
-      .highest-score {
-        font-size: 2rem;
-      }
-
-      .current-score {
-        font-size: 1.5rem;
-      }
-
-      .icon {
-        .custom {
-          color: green;
-          font-size: 10rem;
-        }
-      }
-    }
-    .buttons-container {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      flex-wrap: nowrap;
-      margin-top: 1rem;
-      button {
-        width: 45%;
-        height: 3rem;
-        background-color: cornflowerblue;
-        font-size: large;
-        font-weight: lighter;
-        border-radius: 15px;
-      }
-    }
-  `;
+  static get styles() {
+    return [gameStyles];
+  }
 
   constructor() {
     super();
@@ -87,8 +35,12 @@ class GameComponent extends LitElement {
     }, this.delay);
   }
 
+  /**
+   *
+   * @param newDelay: New amount of time for the next interval
+   * It cleans the previous interval and start a new one
+   */
   updateDelay(newDelay) {
-    console.log('Update Delay');
     this.delay = newDelay; // update the delay value
     clearInterval(this.intervalId); // cancel the current interval
     this.intervalId = setInterval(() => {
@@ -96,23 +48,34 @@ class GameComponent extends LitElement {
     }, this.delay); // create a new interval with the updated delay
   }
 
+  /**
+   * Executes the main code block after the interval ends and call
+   * for reseting the timer
+   */
   executeInterval() {
     this.intervalFunc();
     this.updateDelay(this.getIntervalPeriod());
   }
 
   disconnectedCallback() {
-    clearInterval(this.interval);
+    clearInterval(this.intervalId);
     savePlayerInfo(this.name, this.score);
     super.disconnectedCallback();
   }
 
+  /**
+   * It changes the css values of the icon to show when to "walk" or not
+   */
   intervalFunc = () => {
     this.walk = !this.walk;
     this.iconRef = this.shadowRoot.getElementById('custom-icon');
     this.iconRef.style.color = this.walk ? 'green' : 'red';
   };
 
+  /**
+   * It calculates the amount of time of the next interval
+   * @returns The amount of milliseconds
+   */
   getIntervalPeriod() {
     if (!this.walk) {
       return 3000;
@@ -121,7 +84,11 @@ class GameComponent extends LitElement {
       Math.max(10000 - this.score * 100, 2000) + Math.random(-1500, 1500);
     return ms;
   }
-
+  /**
+   *
+   * @param {*} side : It contains the button side clicked
+   * It manages the logic behind each clicjk
+   */
   handleStepClick(side) {
     if (!this.walk) {
       this.gameOver();
@@ -143,10 +110,17 @@ class GameComponent extends LitElement {
     }
   }
 
+  /**
+   * Navigates to the home component
+   */
   handleNavigationClick() {
     navigate(this, '/home');
   }
 
+  /**
+   * Saves the current player info and navigate to the
+   * game over component
+   */
   gameOver() {
     savePlayerInfo(this.name, this.highestScore);
     navigate(this, '/game-over');

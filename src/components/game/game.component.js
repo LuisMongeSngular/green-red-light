@@ -80,13 +80,11 @@ class GameComponent extends LitElement {
   }
   connectedCallback() {
     super.connectedCallback();
-    console.log('Connecting...');
     this.interval = setInterval(this.intervalFunc, 3000);
     this.highestScore = getPlayerInfo(this.name)?.score ?? 0;
   }
 
   disconnectedCallback() {
-    console.log('Disconnecting...');
     clearInterval(this.interval);
     savePlayerInfo(this.name, this.score);
     super.disconnectedCallback();
@@ -128,6 +126,7 @@ class GameComponent extends LitElement {
   }
 
   gameOver() {
+    savePlayerInfo(this.name, this.highestScore);
     navigate(this, '/game-over');
   }
 

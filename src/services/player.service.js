@@ -45,7 +45,6 @@ export const getPlayerInfo = name => {
   const players = getPlayers();
   if (!players) return undefined;
   const player = players.find(player => player.name === name);
-  console.log('Game - GetPlayersInfo - player: ', player);
   return player;
 };
 

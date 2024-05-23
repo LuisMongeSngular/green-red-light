@@ -1,10 +1,11 @@
 import { LitElement, html, css } from 'lit';
-
+import { isValidName } from '../../services/player.service.js';
+import { navigate } from '../../services/navigation.service.js';
+import {
+  setCurrentPlayer,
+  savePlayerInfo,
+} from '../../services/player.service.js';
 class HomeComponent extends LitElement {
-  static properties = {
-    header: { type: String },
-  };
-
   static styles = css`
     .title {
       font-size: 32px;
@@ -49,28 +50,12 @@ class HomeComponent extends LitElement {
   `;
 
   #onClick() {
-    console.log('click');
     const input = this.shadowRoot.getElementById('name');
-
-    if (this.#isValidName(input.value)) {
-      this.#naviagate();
+    if (isValidName(input.value)) {
+      savePlayerInfo(input.value);
+      setCurrentPlayer(input.value);
+      navigate(this, '/game');
     }
-  }
-
-  #isValidName(name) {
-    const pattern = /^[a-z ,.'-]+$/i;
-    const matches = pattern.exec(name);
-    if (matches) return true;
-    else return false;
-  }
-  #naviagate() {
-    const options = {
-      detail: '/game',
-      bubbles: true,
-      composed: true,
-    };
-    const navigateEvent = new CustomEvent('router-navigate', options);
-    this.shadowRoot.dispatchEvent(navigateEvent);
   }
 
   render() {

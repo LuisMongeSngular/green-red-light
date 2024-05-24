@@ -1,31 +1,36 @@
-<p align="center">
-  <img width="200" src="https://open-wc.org/hero.png"></img>
-</p>
+# Juego Red light Green light
 
-## Open-wc Starter App
+Se puede obtener toda la informacion al respecto de los requisitos en:
+<a href="https://bbvaengineering.github.io/challenges/statues/" target="_blank">https://bbvaengineering.github.io/challenges/statues/</a>  
 
-[![Built with open-wc recommendations](https://img.shields.io/badge/built%20with-open--wc-blue.svg)](https://github.com/open-wc)
+## Paquetes utilizados
+ - [x] Lit-Element: para la creacion de los componentes
+ - [x] Linter: para garantizar un estandar de calidad en el codigo.
+ - [x] Prettier: como formateador del codigo.
+ - [x] Husky: para lanzar linter antes de un commit y los tests antes del push
+ - [x] Jest: para realizar los tests unitarios
+ - [x] LitLab/router: para realizar el enrutado de la aplicacion
 
-## Quickstart
+## Guia de instalacion y uso
 
-To get started:
-
+1. Clonar el repositorio
 ```bash
-npm init @open-wc
-# requires node 10 & npm 6 or higher
+git clone
+```
+2. Instalar las dependencias
+```bash
+npm install
+```
+3. Iniciar la aplicación
+```bash
+npm run start
+```
+4. Abrir el navegador en la siguiente url
+```bash
+http://localhost:9003/
 ```
 
-## Scripts
-
-- `start` runs your app for development, reloading on file changes
-- `start:build` runs your app after it has been built using the build command
-- `build` builds your app and outputs it in your `dist` directory
-- `test` runs your test suite with Web Test Runner
-- `lint` runs the linter for your project
-- `format` fixes linting and formatting errors
-
-## Tooling configs
-
-For most of the tools, the configuration is in the `package.json` to reduce the amount of files in your project.
-
-If you customize the configuration a lot, you can consider moving them to individual files.
+En caso de que queramos lanzar los tests:
+```bash
+npm run test
+```

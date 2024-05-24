@@ -6,62 +6,61 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isProduction = process.env.NODE_ENV === 'production';
 
 export default {
-  mode: isProduction ? 'production' : 'development',
-  entry: './src/index.js',
-  output: {
-    path: path.resolve(__dirname, '_site'),
-    filename: 'bundle.js',
-    publicPath: '/',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
+    mode: isProduction ? 'production' : 'development',
+    entry: './src/index.js',
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'bundle.js',
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env'],
+                    },
+                },
+            },
+            {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
+                loader: 'file-loader',
+            },
+        ],
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+            minSize: Infinity,
         },
-      },
-      {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
-        loader: 'file-loader',
-      },
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'public', to: 'public' },
+                { from: 'sw.js', to: 'sw.js' },
+                { from: 'common.css', to: 'common.css' },
+            ],
+        }),
     ],
-  },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      minSize: Infinity,
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'dist'),
+        },
+        server: 'https',
+        compress: true,
+        port: 9003,
+        historyApiFallback: true,
+        hot: false,
     },
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './src/index.html',
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: 'public', to: 'public' },
-        { from: 'sw.js', to: 'sw.js' },
-        { from: 'common.css', to: 'common.css' },
-      ],
-    }),
-  ],
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'dist'),
-    },
-    server: 'https',
-    compress: true,
-    port: 9003,
-    historyApiFallback: true,
-    hot: false,
-  },
 };

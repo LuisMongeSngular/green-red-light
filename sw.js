@@ -3,7 +3,7 @@ const cacheElements = [
   '/sw.js',
   '/common.css',
   '/public/manifest.json',
-  '/assets',
+  '/src',
 ];
 const CACHE_NAME = 'green-red-light-game-0.0.1';
 
